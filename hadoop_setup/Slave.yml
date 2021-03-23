@@ -1,4 +1,4 @@
-- hosts: 172.20.10.6
+- hosts: slave
   vars:
       - dir: "/dn1"
       - ip: 172.20.10.5

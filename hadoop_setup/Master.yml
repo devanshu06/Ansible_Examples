@@ -1,4 +1,4 @@
-- hosts: 172.20.10.5
+- hosts: namenode
   vars:
       - dir: "/nn"
       - ip: 172.20.10.5
