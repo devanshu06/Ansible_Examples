@@ -1,4 +1,4 @@
-- hosts: slave
+- hosts: datanode
   vars:
       - dir: "/dn1"
       - ip: 172.20.10.5
