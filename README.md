@@ -14,3 +14,6 @@ This repository contains all the Playbooks and other files used to work with dif
 
 ### [1. Setting up a Hadoop Cluster](https://github.com/devanshu06/Ansible_Examples/tree/master/hadoop_setup)
 In this example, we will be looking at how we can set up a Hadoop cluster using Ansible Playbooks and basic Linux scripting.<br>
+
+### [2. Launching Webserver on the Docker conatiner](https://github.com/devanshu06/Ansible_Examples/tree/master/docker_webserver)
+In this example, we will be looking at how we can launch the apache webserver on the docker container using the help of ansible.
