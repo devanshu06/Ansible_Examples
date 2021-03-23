@@ -1,0 +1,2 @@
+[managed_nodes]
+10.10.26.53 ansible_ssh_user=root ansible_ssh_pass=redhat

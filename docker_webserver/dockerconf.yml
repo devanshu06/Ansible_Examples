@@ -1,0 +1,44 @@
+- hosts: managednode
+  tasks:
+      - name: "Adding Docker Repository"
+        yum_repository:
+            name: docker
+            description: docker  YUM repo
+            baseurl: https://download.docker.com/linux/centos/7/x86_64/stable/
+            gpgcheck: no
+
+      - name: "Installing docker"
+        command:
+            cmd: yum install docker-ce --nobest -y
+
+      - name: "Installing docker-py python module"
+        pip:
+            name: docker-py
+
+      - name: "Starting Docker daemon"
+        service:
+            name: docker
+            state: started
+            enabled: yes
+
+      - name: "Pulling docker image from dockerhub"
+        docker_image:
+            name: httpd
+            source: pull
+            
+
+      - name: "Copying Html file to the managed node"
+        copy:
+            src: /root/Ansible_Examples/docker_webserver/test.html    
+            dest: /root/test.html
+
+      - name: "Starting Docker container with HTTPD image"
+        docker_container:
+            name: "docker_web"
+            image: "httpd"
+            state: started
+            exposed_ports: 80
+            ports: "8080:80"
+            volumes: /root:/usr/local/apache2/htdocs/
+            state: started
+            detach: yes
