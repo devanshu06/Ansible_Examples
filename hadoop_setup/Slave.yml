@@ -1,0 +1,35 @@
+- hosts: 172.20.10.6
+  vars:
+      - dir: "/dn1"
+      - ip: 172.20.10.5
+      - node: "data"
+      - port: 9001
+
+  tasks:
+      
+      - name: "Installing Java software in slave node"
+        command: "rpm -ivh jdk-8u171-linux-x64.rpm"
+        ignore_errors: yes 
+
+      - name: "Installing Hadoop software in Slave Node"
+        command: "rpm -ivh hadoop-1.2.1-1.x86_64.rpm --force"
+        ignore_errors: yes
+
+      - name: "Creating Directory"
+        file:
+            state: directory
+            path: "{{ dir }}"
+        register: created_new_dir
+
+      - name: "Copying the hdfs-site.xml file"
+        template:
+            src: "hdfs-site.xml.j2" 
+            dest: "/etc/hadoop/hdfs-site.xml"
+
+      - name: "Copying the core-site.xml file"
+        template:
+            src: "core-site.xml.j2" 
+            dest: "/etc/hadoop/core-site.xml"
+
+      - name: "Starting the datanode"
+        command: "hadoop-daemon.sh start datanode"

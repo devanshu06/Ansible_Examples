@@ -1,0 +1,2 @@
+172.20.10.5 ansible_ssh_user=root ansible_ssh_pass=redhat
+172.20.10.6 ansible_ssh_user=root ansible_ssh_pass=redhat

@@ -1,0 +1,44 @@
+- hosts: 172.20.10.5
+  vars:
+      - dir: "/nn"
+      - ip: 172.20.10.5
+      - node: "name"
+      - port: 9001  
+  tasks:
+      - name: "Installing Java software in Master nodes"
+        command: "rpm -ivh jdk-8u171-linux-x64.rpm"
+        ignore_errors: yes 
+
+      - name: "Installing Hadoop software in Master Nodes"
+        command: "rpm -ivh hadoop-1.2.1-1.x86_64.rpm --force"
+        ignore_errors: yes
+
+      - name: "Making Directory"
+        file:
+            state: directory
+            path: "{{ dir }}"
+        register: created_new_dir
+
+      - name: "Copying the hdfs-site.xml file"
+        template:
+            src: "hdfs-site.xml.j2"
+            dest: "/etc/hadoop/hdfs-site.xml"
+
+      - name: "Copying the core-site.xml file"
+        template:
+            src: "core-site.xml.j2"
+            dest: "/etc/hadoop/core-site.xml"
+
+      - name: "Stop datanode if it is running"
+        command: "hadoop-daemon.sh stop namenode"
+        register: datanode_inactive
+
+      - name: "Formating the namenode"
+        shell: "echo Y | hadoop namenode -format"
+        when: created_new_dir.changed == true
+
+      - name: "Starting the hadoop"
+        command: "hadoop-daemon.sh start namenode"
+
+      - name: "Stopping the firewalld so datanode can connect easily"
+        command: "systemctl stop firewalld"
